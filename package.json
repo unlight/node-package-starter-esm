@@ -10,18 +10,17 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs"
+      "default": "./dist/index.mjs"
     }
   },
   "scripts": {
-    "postinstall": "node ./node_modules/ghooks/bin/module-install",
     "test": "npm run eslint && npm run tscheck && npm run test:cov",
     "test:r": "vitest run",
     "test:cov": "vitest run --coverage",
     "test:w": "vitest watch",
     "lint": "npm run eslint && npm run tscheck",
     "eslint": "eslint \"src/**/*.{ts,tsx}\"",
-    "eslint:w": "watchexec -w src \"npm run eslint\"",
+    "eslint:w": "chokidar \"**/*.ts\" -i node_modules --silent --initial -c \"npm run eslint\"",
     "eslint:fix": "npm run eslint -- --fix",
     "tscheck": "tsc --noEmit",
     "tscheck:w": "npm run tscheck -- --watch",
@@ -30,8 +29,6 @@
     "lint:doc:fix": "sh Taskfile remark_run --output",
     "format:src": "prettier src --write",
     "commit_lint": "sh Taskfile commit_lint",
-    "commit": "cz",
-    "dev": "node node_modules/webpack-dev-server/bin/webpack-dev-server",
     "build": "sh Taskfile buildMicrobundle5",
     "lint:w": "run-p tscheck:w eslint:w",
     "test:m": "node node_modules/@stryker-mutator/core/bin/stryker.js run"
@@ -39,59 +36,44 @@
   "peerDependencies": {
     "reflect-metadata": "^0.1.13"
   },
-  "config": {
-    "ghooks": {
-      "commit-msg": "sh Taskfile commit_lint",
-      "pre-push": "npm run test"
-    }
-  },
   "devDependencies": {
-    "@commitlint/cli": "^19.6.1",
-    "@commitlint/config-conventional": "^19.6.0",
-    "@eslint/compat": "^1.2.4",
-    "@eslint/js": "^9.17.0",
+    "@eslint/compat": "^1.2.7",
+    "@eslint/js": "^9.21.0",
     "@semantic-release/changelog": "^6.0.3",
     "@semantic-release/git": "^10.0.1",
-    "@swc/core": "^1.10.4",
-    "@swc/helpers": "^0.5.15",
-    "@types/node": "^22.10.2",
-    "@vitest/coverage-v8": "2.1.8",
+    "@types/node": "^22.13.5",
+    "@vitest/coverage-v8": "3.0.6",
     "c8": "^10.1.3",
-    "commitizen": "^4.3.1",
+    "chokidar-cli": "^3.0.0",
     "conventional-changelog-conventionalcommits": "^8.0.0",
-    "cz-conventional-changelog": "^3.3.0",
-    "eslint": "^9.17.0",
-    "eslint-config-prettier": "^9.1.0",
+    "eslint": "^9.21.0",
+    "eslint-config-prettier": "^10.0.1",
     "eslint-plugin-etc": "^2.0.3",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-only-warn": "^1.1.0",
-    "eslint-plugin-perfectionist": "^4.4.0",
-    "eslint-plugin-prettier": "^5.2.1",
+    "eslint-plugin-perfectionist": "^4.9.0",
+    "eslint-plugin-prettier": "^5.2.3",
     "eslint-plugin-promise": "^7.2.1",
     "eslint-plugin-simple-import-sort": "^12.1.1",
-    "eslint-plugin-unicorn": "^56.0.1",
+    "eslint-plugin-unicorn": "^57.0.0",
     "eslint-plugin-wix-editor": "^3.3.0",
-    "ghooks": "^2.0.4",
     "git-branch-is": "^4.0.0",
-    "globals": "^15.14.0",
+    "globals": "^16.0.0",
     "microbundle": "^0.15.1",
-    "node-watchexec": "github:longdog/node-watchexec",
     "npm-run-all": "^4.1.5",
-    "pkgroll": "^2.6.0",
-    "prettier": "^3.4.2",
+    "prettier": "^3.5.2",
     "reflect-metadata": "^0.2.2",
     "remark": "^15.0.1",
     "remark-cli": "^12.0.1",
     "remark-license": "^6.1.0",
     "remark-toc": "^9.0.0",
-    "semantic-release": "^24.2.0",
-    "semantic-release-monorepo": "^8.0.2",
+    "semantic-release": "^24.2.3",
     "simplytyped": "^3.3.0",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "tslib": "^2.8.1",
-    "typescript": "^5.7.2",
-    "typescript-eslint": "^8.18.2",
-    "vitest": "^2.1.8"
+    "typescript": "^5.7.3",
+    "typescript-eslint": "^8.24.1",
+    "vitest": "^3.0.6"
   }
 }
