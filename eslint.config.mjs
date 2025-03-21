@@ -6,7 +6,6 @@ import tseslint from 'typescript-eslint';
 import prettier from 'eslint-plugin-prettier/recommended';
 import unicorn from 'eslint-plugin-unicorn';
 import perfectionist from 'eslint-plugin-perfectionist';
-import simpleImportSort from 'eslint-plugin-simple-import-sort';
 import wixEditor from 'eslint-plugin-wix-editor';
 import { fixupPluginRules } from '@eslint/compat';
 
@@ -77,15 +76,6 @@ export default [
           order: 'asc',
         },
       ],
-    },
-  },
-  {
-    plugins: {
-      'simple-import-sort': simpleImportSort,
-    },
-    rules: {
-      'simple-import-sort/imports': 'warn',
-      'simple-import-sort/exports': 'warn',
     },
   },
   {
