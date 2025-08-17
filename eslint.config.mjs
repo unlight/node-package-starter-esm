@@ -9,27 +9,20 @@ import perfectionist from 'eslint-plugin-perfectionist';
 import wixEditor from 'eslint-plugin-wix-editor';
 import { fixupPluginRules } from '@eslint/compat';
 
-/** @type {import('@typescript-eslint/utils').TSESLint.FlatConfig.ConfigFile} */
-export default [
+export default tseslint.config(
   pluginJs.configs.recommended,
-  ...tseslint.configs.recommended,
-  ...tseslint.configs.recommendedTypeChecked,
+  tseslint.configs.recommended,
+  tseslint.configs.recommendedTypeChecked,
   unicorn.configs.recommended,
   prettier,
   {
-    ignores: [
-      'dist/',
-      'coverage/',
-      '@generated/**',
-      '*.config.[cm]js',
-      '.*rc.js',
-    ],
+    ignores: ['dist/', 'coverage/', '@generated/**'],
     languageOptions: {
       globals: globals.node,
       parserOptions: {
         project: ['./tsconfig.json'],
-        warnOnUnsupportedTypeScriptVersion: false,
         tsconfigRootDir: import.meta.dirname,
+        warnOnUnsupportedTypeScriptVersion: false,
       },
     },
     rules: {
@@ -72,22 +65,31 @@ export default [
       'perfectionist/sort-objects': [
         'warn',
         {
-          type: 'natural',
           order: 'asc',
+          type: 'natural',
         },
       ],
     },
   },
   {
+    extends: [tseslint.configs.disableTypeChecked],
+    files: [
+      '*.config.mjs',
+      '*.config.mts',
+      '.remarkrc.cjs',
+      'stryker.conf.mjs',
+    ],
+  },
+  {
     files: ['**/*.spec.ts', '**/*.e2e-spec.ts'],
     rules: {
-      'consistent-return': 0,
-      'max-lines': 0,
+      '@typescript-eslint/camelcase': 0,
       '@typescript-eslint/no-explicit-any': 0,
       '@typescript-eslint/no-floating-promises': 0,
       '@typescript-eslint/no-non-null-assertion': 0,
-      '@typescript-eslint/camelcase': 0,
+      'consistent-return': 0,
       'import/max-dependencies': 0,
+      'max-lines': 0,
     },
   },
-];
+);
