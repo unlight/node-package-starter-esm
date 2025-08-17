@@ -14,6 +14,7 @@ export default [
   pluginJs.configs.recommended,
   ...tseslint.configs.recommended,
   ...tseslint.configs.recommendedTypeChecked,
+  unicorn.configs.recommended,
   prettier,
   {
     ignores: [
@@ -52,7 +53,6 @@ export default [
     },
   },
   {
-    ...unicorn.configs.recommended,
     rules: {
       'unicorn/prevent-abbreviations': [
         'warn',
