@@ -8,6 +8,7 @@ import unicorn from 'eslint-plugin-unicorn';
 import perfectionist from 'eslint-plugin-perfectionist';
 import wixEditor from 'eslint-plugin-wix-editor';
 import { fixupPluginRules } from '@eslint/compat';
+import { plugin as ex } from 'eslint-plugin-exception-handling';
 
 export default tseslint.config(
   pluginJs.configs.recommended,
@@ -69,6 +70,14 @@ export default tseslint.config(
           type: 'natural',
         },
       ],
+    },
+  },
+  {
+    plugins: { ex },
+    rules: {
+      'ex/might-throw': 1,
+      'ex/no-unhandled': 1,
+      'ex/use-error-cause': 1,
     },
   },
   {
