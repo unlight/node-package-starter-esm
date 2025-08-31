@@ -28,7 +28,7 @@ export default tseslint.config(
     },
     rules: {
       'max-lines': [1, { max: 300 }],
-      'max-params': [1, { max: 5 }],
+      'max-params': [1, { max: 3 }],
       'no-unneeded-ternary': [1],
     },
   },
