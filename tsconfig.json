@@ -27,6 +27,7 @@
     "declarationMap": false,
     "skipLibCheck": true,
     "lib": ["esnext"],
+    "noEmit": true,
     "paths": {},
     "plugins": []
   },

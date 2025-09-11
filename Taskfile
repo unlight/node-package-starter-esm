@@ -18,7 +18,8 @@ remark_output() {
 buildMicrobundle5() {
   set -x
   rm -rfv dist
-  microbundle -i src/index.ts --tsconfig tsconfig.build.json --no-sourcemap --no-compress --target node -f esm -o dist
+  dts-bundle-generator --no-banner --project tsconfig.build.json -o dist/index.d.ts src/index.ts
+  microbundle -i src/index.ts --tsconfig tsconfig.build.json --no-generateTypes --no-sourcemap --no-compress --target node -f esm -o dist
   name=$(cat package.json | jq -r '.name')
   cp -v README.md package.json dist
   cd dist
