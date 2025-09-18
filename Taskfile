@@ -7,14 +7,6 @@ ping() {
   echo args: "$1" "$2" "$3"
 }
 
-remark_run() {
-  node -r ts-node/register node_modules/remark-cli/cli.js readme.md "$@"
-}
-
-remark_output() {
-  remark_run --output
-}
-
 buildMicrobundle5() {
   set -x
   rm -rfv dist
@@ -40,32 +32,6 @@ build_cp() {
   cp -rfv index.js dist
   cp -fv README.md package.json dist
   set +x
-}
-
-git_last_release_tag() {
-  result=""
-  rev=$(git rev-list --max-count=1 --tags="v[0-9]*\\.[0-9]*\\.[0-9]*")
-  if [ -n "$rev" ]; then
-    result=$(git describe --tags $rev)
-  fi
-  if [ -n "$result" ]; then
-    result=$(git rev-list --max-parents=0 HEAD)
-  fi
-  echo $result
-}
-
-commit_lint() {
-  if git-branch-is -q -r "^(master)"; then
-    commitlint --edit
-  else
-    true
-  fi
-}
-
-commit_check() {
-  set -x
-  from=$(git_last_release_tag)
-  commitlint --from $from
 }
 
 "$@"

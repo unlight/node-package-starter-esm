@@ -1,4 +1,4 @@
-# node-package-starter
+# node-package-starter-esm
 
 ```sh
 # setupmutation

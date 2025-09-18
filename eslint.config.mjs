@@ -1,5 +1,6 @@
 import 'eslint-plugin-only-warn';
 
+import { defineConfig } from 'eslint/config';
 import globals from 'globals';
 import pluginJs from '@eslint/js';
 import tseslint from 'typescript-eslint';
@@ -10,7 +11,7 @@ import wixEditor from 'eslint-plugin-wix-editor';
 import { fixupPluginRules } from '@eslint/compat';
 import { plugin as ex } from 'eslint-plugin-exception-handling';
 
-export default tseslint.config(
+export default defineConfig(
   pluginJs.configs.recommended,
   tseslint.configs.recommended,
   tseslint.configs.recommendedTypeChecked,
@@ -21,9 +22,7 @@ export default tseslint.config(
     languageOptions: {
       globals: globals.node,
       parserOptions: {
-        project: ['./tsconfig.json'],
-        tsconfigRootDir: import.meta.dirname,
-        warnOnUnsupportedTypeScriptVersion: false,
+        projectService: true,
       },
     },
     rules: {

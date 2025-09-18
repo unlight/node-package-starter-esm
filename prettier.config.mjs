@@ -3,10 +3,10 @@
  * @type {import('prettier').Config}
  */
 export default {
+  arrowParens: 'avoid',
   printWidth: 80,
-  trailingComma: 'all',
-  tabWidth: 2,
   semi: true,
   singleQuote: true,
-  arrowParens: 'avoid',
+  tabWidth: 2,
+  trailingComma: 'all',
 };

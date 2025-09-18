@@ -1,4 +1,4 @@
-import { inspect } from 'util';
+import { inspect } from 'node:util';
 import { expect, it } from 'vitest';
 
 import { hello } from './index.ts';
