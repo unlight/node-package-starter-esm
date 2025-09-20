@@ -29,6 +29,7 @@
     "lib": ["esnext"],
     "noEmit": true,
     "paths": {},
+    "baseUrl": ".",
     "plugins": []
   },
   "include": ["src"]

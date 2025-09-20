@@ -1,15 +1,17 @@
 import 'eslint-plugin-only-warn';
 
-import { defineConfig } from 'eslint/config';
-import globals from 'globals';
-import pluginJs from '@eslint/js';
-import tseslint from 'typescript-eslint';
-import prettier from 'eslint-plugin-prettier/recommended';
-import unicorn from 'eslint-plugin-unicorn';
-import perfectionist from 'eslint-plugin-perfectionist';
-import wixEditor from 'eslint-plugin-wix-editor';
 import { fixupPluginRules } from '@eslint/compat';
+import pluginJs from '@eslint/js';
+import { globalIgnores, defineConfig } from 'eslint/config';
 import { plugin as ex } from 'eslint-plugin-exception-handling';
+import * as importx from 'eslint-plugin-import-x';
+import perfectionist from 'eslint-plugin-perfectionist';
+import prettier from 'eslint-plugin-prettier/recommended';
+import typescriptPaths from 'eslint-plugin-typescript-paths';
+import unicorn from 'eslint-plugin-unicorn';
+import wixEditor from 'eslint-plugin-wix-editor';
+import globals from 'globals';
+import * as tseslint from 'typescript-eslint';
 
 export default defineConfig(
   pluginJs.configs.recommended,
@@ -17,19 +19,30 @@ export default defineConfig(
   tseslint.configs.recommendedTypeChecked,
   unicorn.configs.recommended,
   prettier,
+  globalIgnores(['dist/**', 'coverage/**', '@generated/**']),
   {
-    ignores: ['dist/', 'coverage/', '@generated/**'],
     languageOptions: {
+      ecmaVersion: 'latest',
       globals: globals.node,
       parserOptions: {
         projectService: true,
       },
+      sourceType: 'module',
     },
     rules: {
       'max-lines': [1, { max: 300 }],
       'max-params': [1, { max: 3 }],
       'no-unneeded-ternary': [1],
     },
+    settings: {
+      node: {
+        version: '>=24',
+      },
+    },
+  },
+  {
+    plugins: { 'typescript-paths': typescriptPaths },
+    rules: typescriptPaths.configs.recommended.rules,
   },
   {
     plugins: {
@@ -58,6 +71,40 @@ export default defineConfig(
     },
   },
   {
+    extends: [importx.flatConfigs.recommended, importx.flatConfigs.typescript],
+    rules: {
+      'import-x/order': [
+        'warn',
+        {
+          alphabetize: {
+            caseInsensitive: false,
+            order: 'asc',
+            orderImportKind: 'asc',
+          },
+          groups: [
+            'builtin', // Node.js built-in modules (e.g., `fs`)
+            'external', // Packages from `node_modules`
+            'internal', // Absolute imports (via path aliases)
+            ['parent', 'sibling', 'index'], // Relative imports
+            'object', // Type imports (if using TypeScript)
+            'type', // Side-effect imports
+          ],
+          'newlines-between': 'always', // Add newlines between groups
+          pathGroups: [
+            {
+              // The predefined group this PathGroup is defined in relation to
+              group: 'external',
+              // Minimatch pattern used to match against specifiers
+              pattern: '@/**',
+              // How matching imports will be positioned relative to "group"
+              position: 'after',
+            },
+          ],
+        },
+      ],
+    },
+  },
+  {
     plugins: {
       perfectionist,
     },
@@ -81,12 +128,7 @@ export default defineConfig(
   },
   {
     extends: [tseslint.configs.disableTypeChecked],
-    files: [
-      '*.config.mjs',
-      '*.config.mts',
-      '.remarkrc.cjs',
-      'stryker.conf.mjs',
-    ],
+    files: ['*.config.mjs', '*.config.mts'],
   },
   {
     files: ['**/*.spec.ts', '**/*.e2e-spec.ts'],
