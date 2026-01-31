@@ -1,49 +1,41 @@
-name: 'Test / Build / Release'
+name: Continuous Integration
 on:
   - push
   - pull_request
 
 jobs:
-  test:
-    name: 'Test'
+  build:
+    name: 'Test, build, release'
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: write
     steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v4
-      - name: 'Setup node'
-        uses: actions/setup-node@v4
+      - name: 'Checkout Repository'
+        uses: actions/checkout@v6
+
+      - name: 'Setup Node'
+        uses: actions/setup-node@v6
         with:
           node-version: 24
-      - name: 'Install depependencies'
+
+      - name: 'Install Depependencies'
         run: npm install --force
-      - name: 'Test'
+
+      - name: 'Tests'
         run: |
           npm run test
 
-  release:
-    name: 'Release'
-    runs-on: ubuntu-latest
-    needs: test
-    permissions:
-      contents: write
-      issues: write
-      pull-requests: write
-      id-token: write
-    if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next')
-    steps:
-      - name: 'Checkout repository'
-        uses: actions/checkout@v4
-      - name: 'Setup Node'
-        uses: actions/setup-node@v4
-        with:
-          node-version: 24
-      - name: 'Install depependencies'
+      - name: 'Mutation Tests'
         run: |
-          npm install --force
+          npm run test:m
+
       - name: 'Build'
         run: |
           npm run build
+
       - name: 'Release'
+        if: github.event_name == 'push' && (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/next')
         run: |
           npx semantic-release
         env:
