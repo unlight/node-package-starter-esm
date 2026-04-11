@@ -9,9 +9,9 @@
     "require": ["tsconfig-paths/register"]
   },
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ES6",
-    "moduleResolution": "node",
+    "target": "esnext",
+    "module": "nodenext",
+    "moduleResolution": "nodenext",
     "importHelpers": true,
     "strict": true,
     "allowImportingTsExtensions": true,
@@ -27,9 +27,9 @@
     "declarationMap": false,
     "skipLibCheck": true,
     "lib": ["esnext"],
+    "types": ["node"],
     "noEmit": true,
     "paths": {},
-    "baseUrl": ".",
     "plugins": []
   },
   "include": ["src"]

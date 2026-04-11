@@ -40,10 +40,10 @@ export default defineConfig(
       },
     },
   },
-  {
-    plugins: { 'typescript-paths': typescriptPaths },
-    rules: typescriptPaths.configs.recommended.rules,
-  },
+  // {
+  //   plugins: { 'typescript-paths': typescriptPaths },
+  //   rules: typescriptPaths.configs.recommended.rules,
+  // },
   {
     plugins: {
       'wix-editor': fixupPluginRules(wixEditor),
