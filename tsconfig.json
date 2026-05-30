@@ -9,7 +9,7 @@
     "require": ["tsconfig-paths/register"]
   },
   "compilerOptions": {
-    "target": "esnext",
+    "target": "es2025",
     "module": "nodenext",
     "moduleResolution": "nodenext",
     "importHelpers": true,
@@ -22,13 +22,15 @@
     "outDir": "dist",
     "pretty": true,
     "removeComments": false,
-    "sourceMap": true,
+    "sourceMap": false,
     "declaration": true,
     "declarationMap": false,
     "skipLibCheck": true,
+    "rootDir": ".",
     "lib": ["esnext"],
     "types": ["node"],
     "noEmit": true,
+    "rewriteRelativeImportExtensions": true,
     "paths": {},
     "plugins": []
   },

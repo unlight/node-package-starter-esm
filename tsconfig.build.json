@@ -1,4 +1,10 @@
 {
   "extends": "./tsconfig.json",
-  "include": ["src/index.ts"]
+  "compilerOptions": {
+    "ignoreDeprecations": "6.0"
+  },
+  "include": ["./src/index.ts"],
+  "tsbuild": {
+    "platform": "node"
+  }
 }

@@ -54,3 +54,4 @@ reports
 .swc
 *.sublime-project
 *.sublime-workspace
+.tsbuild

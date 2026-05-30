@@ -7,20 +7,22 @@ ping() {
   echo args: "$1" "$2" "$3"
 }
 
-buildMicrobundle6() {
+tsbuild1() {
   set -x
   rm -rfv dist
-  dts-bundle-generator --no-banner --project tsconfig.build.json -o dist/index.d.ts src/index.ts
-  microbundle -i src/index.ts --tsconfig tsconfig.build.json --no-generateTypes --no-sourcemap --no-compress --no-pkg-main --target node -f esm -o dist
+  # dts-bundle-generator --no-banner --project tsconfig.build.json -o dist/index.d.ts src/index.ts
+  # microbundle -i src/index.ts --tsconfig tsconfig.build.json --no-generateTypes --no-sourcemap --no-compress --no-pkg-main --target node -f esm -o dist
+  tsbuild
   name=$(cat package.json | jq -r '.name')
   cp -v README.md package.json dist
   cd dist
   mv index.d.ts "$name.d.ts"
-  mv "$name.js" "$name.mjs"
+  mv index.js "$name.mjs"
   cat ../package.json | jq --arg name "$name" '
     .module = "./\($name).mjs" |
     .types = "./\($name).d.ts" |
-    .exports.".".default = "./\($name).mjs"
+    .exports.".".default = "./\($name).mjs" |
+    .exports.".".types = "./\($name).d.ts"
   ' > package.json
   cd ..
   set +x
