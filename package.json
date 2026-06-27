@@ -25,7 +25,7 @@
     "tscheck": "tsc --noEmit",
     "tscheck:w": "npm run tscheck -- --watch",
     "format:src": "prettier src --write",
-    "build": "tsdown",
+    "build": "bash Taskfile build",
     "lint:w": "run-p tscheck:w eslint:w",
     "test:m": "node node_modules/@stryker-mutator/core/bin/stryker.js run"
   },
